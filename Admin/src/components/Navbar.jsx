@@ -1,5 +1,5 @@
 import React from "react";
-import { assets } from "../../assets/assets";
+import { assets } from "../assets/assets";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -50,13 +50,14 @@ const Navbar = () => {
         </div>
       </div>
           </div>
-          <div className="background relative fl">
-          <img className="background absolute w-full h-screen px-8 z-0"src={assets.background} alt="Background"/>      
-          <p className="z-10 text-white items-center p-8 absolute ">
-        This is some text over the background
-      </p>
-      
+          <div className="background relative flex justify-center ">
+          <img className="background absolute w-full h-screen px-8 z-0"src={assets.background} alt="Background"/>
+           
+          <p className="z-10 text-white  text-6xl w-auto  font-primary p-65 ">
+        A Best Place for Your Neatly Experience
+      </p>           
           </div> 
+          
 </>
   );
 };

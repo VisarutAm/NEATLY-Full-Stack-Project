@@ -2,3 +2,26 @@
 @plugin "daisyui";
 
 
+@font-face {
+    font-family: Playwrite IT Moderna;
+    src: url('./assets/Fonts/PlaywriteITModerna-Regular.ttf');
+}
+
+@font-face {
+    font-family: Noto;
+    src: url('./assets/Fonts/NotoSerif-Medium.ttf');    
+}
+
+@font-face {
+    font-family: Inter;
+    src: url('./assets/Fonts/Inter_18pt-Regular.ttf');
+}
+
+@theme {
+    --font-primary:Playwrite IT Moderna,"cursive";
+    --font-inter:Inter,"sans-serif";
+    --font-noto:Noto,"serif";
+    --color-green-800:#2F3E35;
+    --color-green-700:#465C50;
+    --breakpoint-se:25rem;
+}
