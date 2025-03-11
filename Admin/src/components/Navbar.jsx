@@ -46,7 +46,7 @@ const Navbar = () => {
           </div>
         </div>
         <div className="navbar-end">
-          <a className="btn text-sm mr-15">Log In</a>
+          <button className="btn text-sm mr-15 border-amber-500 border-3 hover:bg-amber-100 rounded-full">Log In</button>
         </div>
       </div>
           </div>
