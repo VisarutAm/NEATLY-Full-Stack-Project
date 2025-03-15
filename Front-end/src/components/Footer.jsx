@@ -16,7 +16,7 @@ const Footer = () => {
                   className="h-8 sm:h-10 mr-2"
                 />                
               </a>
-              <h3 className="p-6 text-white font-bold">Neatly Hotel<h6 className="text-xs font-extralight">The best hotel for rising your experience</h6></h3>
+              <div className="p-6 text-white font-bold">Neatly Hotel<h6 className="text-xs font-extralight">The best hotel for rising your experience</h6></div>
             </div>
            
             <div className=" text-base text-left mt-4 md:mt-0">
@@ -45,7 +45,7 @@ const Footer = () => {
                   alt="Tel_icon"
                   className="mr-2 h-4 w-4 text-white"
                 />
-                <p className="text-white text-xs font-extralight">188 phaya Thai Rd, Thung Phaya Thai,<p>Ratchathewi, Bangkok 10400</p></p>
+                <div className="text-white text-xs font-extralight">188 phaya Thai Rd, Thung Phaya Thai,<p>Ratchathewi, Bangkok 10400</p></div>
                 
               </div>
             </div>
