@@ -1,7 +1,5 @@
 import express from "express";
-// import _ from "lodash";
 import Stripe from "stripe";
-
 
 const payment = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
@@ -9,14 +7,12 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 });
 console.log("Stripe Secret Key:", process.env.STRIPE_SECRET_KEY);
 
-
 payment.post("/create-payment-intent", async (req, res) => {
   const { amount, currency } = req.body;
   console.log("Received amount:", amount, "currency:", currency); // ตรวจสอบค่าที่รับมา
 
   console.log(req.body)
-
-  // Validate amount and currency
+  
   if (!amount || !currency) {
     return res.status(400).send({ error: "Amount and currency are required" });
   }
@@ -54,18 +50,6 @@ payment.get("/payment-status/:paymentIntentId", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
-// const paymentIntent = await stripe.paymentIntents.create({
-//   amount: 10000, // 100 บาท
-//   currency: "THB",
-//   payment_method_types: ["promptpay"], 
-// });
-
-// console.log("Payment Intent:", paymentIntent);
-
-// const capabilities = await stripe.accounts.retrieve(process.env.STRIPE_ACCOUNT_ID);
-
-// console.log("Capabilities:", capabilities.capabilities);
 
 payment.get("/customer-payment-methods/:customerId", async (req, res) => {
   const { customerId } = req.params;

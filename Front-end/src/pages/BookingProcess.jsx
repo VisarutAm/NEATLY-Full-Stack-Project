@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Navbar from '../components/Navbar';
 import StepBooking from '../components/Booking/StepBooking';
 import { Elements } from "@stripe/react-stripe-js";

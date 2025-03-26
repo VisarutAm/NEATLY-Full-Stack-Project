@@ -4,8 +4,7 @@ import { assets } from "../assets/assets";
 const Footer = () => {
   return (
     <>
-      <footer className="bg-green-800 ">
-        {/* แสดงเฉพาะ pc */}
+      <footer className="footer bg-green-800 ">       
         <div className="px-28 mt-4 pb-4 pt-4 flex-col md:flex-row items-center justify-between hidden sm:block">
           <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
             <div className="flex  mb-8 flex-col">

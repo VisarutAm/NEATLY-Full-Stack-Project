@@ -1,53 +1,3 @@
-// import React, { useState,useEffect } from "react";
-// import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
-
-// const CheckoutForm = () => {
-//   const stripe = useStripe();
-//   const elements = useElements();
-//   const [loading, setLoading] = useState(false);
-//   const [errorMessage, setErrorMessage] = useState("");
-
-//   useEffect(() => {
-//     fetch("http://localhost:4000/api/create-payment-intent", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ amount: 5000, currency: "usd" }), // 50.00 USD
-//     })
-//       .then((res) => res.json())
-//       .then((data) => setClientSecret(data.clientSecret));
-//   }, []);
-
-//   const handleSubmit = async (event) => {
-//     event.preventDefault();
-//     if (!stripe || !elements || !clientSecret) return;
-
-//     const card = elements.getElement(CardElement);
-//     const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
-//       payment_method: { card },
-//     });
-
-//     if (error) {
-//       console.error(error.message);
-//     } else {
-//       console.log("✅ Payment Successful:", paymentIntent);
-//       alert("Payment Successful!");
-//     }
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <CardElement />
-//       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-//       <button type="submit" disabled={!stripe || loading}>
-//         {loading ? "Processing..." : "Pay"}
-//       </button>
-//     </form>
-//   );
-// };
-
-// export default CheckoutForm;
-
-// src/PaymentForm.js
 import React, { useState } from "react";
 import QrCode2OutlinedIcon from "@mui/icons-material/QrCode2Outlined";
 import PaymentOutlinedIcon from "@mui/icons-material/PaymentOutlined";
@@ -58,7 +8,7 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { useBooking } from "../../context/BookingContext";
-import PaymentRadio from "../Booking/PaymentRadio"
+import PaymentRadio from "../Booking/PaymentRadio";
 import axios from "axios";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { toast } from "react-toastify";
@@ -66,8 +16,13 @@ import { useEffect } from "react";
 
 const ServicePayment = () => {
   const [selected, setSelected] = useState("credit-card");
-  const { bookingData, setBookingData, setFinalPrice,handleBooking,setSumprice } = useBooking();
-  const [qrSrc, setQrSrc] = useState("");
+  const {
+    bookingData,
+    setBookingData,
+    setFinalPrice,
+    handleBooking,
+    setSumprice,
+  } = useBooking();
   const isMdUp = useMediaQuery("(min-width: 768px)");
   const stripe = useStripe();
   const [discountCode, setDiscountCode] = useState(""); // เก็บโค้ดที่ผู้ใช้ป้อน
@@ -80,9 +35,9 @@ const ServicePayment = () => {
   };
 
   const discountCodes = {
-    DISCOUNT10: 0.1, // ลด 10%
-    DISCOUNT20: 0.2, // ลด 20%
-    DISCOUNT30: 0.3, // ลด 30%
+    DISCOUNT10: 0.1,
+    DISCOUNT20: 0.2,
+    DISCOUNT30: 0.3,
   };
 
   const extrasTotal = bookingData.extras.reduce((total, extra) => {
@@ -90,7 +45,7 @@ const ServicePayment = () => {
   }, 0);
 
   const totalPrice = bookingData.price + extrasTotal;
-  setSumprice(totalPrice)
+  setSumprice(totalPrice);
 
   const finalPrice = bookingData.finalPrice || totalPrice;
   setFinalPrice(finalPrice);
@@ -108,25 +63,18 @@ const ServicePayment = () => {
       const { clientSecret, paymentIntentId } = response.data;
       console.log("Response:", response.data);
 
-      // Use stripe.confirmPromptPayPayment to get the payment intent response
       const result = await stripe.confirmPromptPayPayment(clientSecret, {
         payment_method: {
           promptpay: {},
           billing_details: {
-            email: "dummy@example.com", // Provide a dummy email to satisfy Stripe's requirement
+            email: "dummy@example.com",
           },
         },
       });
-      //console.log("Checkstatus", result);
 
       if (result.error) {
         console.error("Stripe error:", result.error.message);
       } else {
-        // Directly access QR code URL if available
-        // const qrCodeUrl =
-        //   result.paymentIntent?.next_action?.promptpay_display_qr_code
-        //     ?.qr_code_url;
-
         checkPaymentStatus(paymentIntentId);
       }
     } catch (error) {
@@ -141,13 +89,10 @@ const ServicePayment = () => {
       );
       //console.log("responses:", response);
       if (response.data.status === "succeeded") {
-        // Navigate to the bill page
-        // storeBillInfo();
         handleBooking();
         toast.success("ชำระเงินสำเร็จ");
       } else {
-        // Retry after some time
-        setTimeout(() => checkPaymentStatus(paymentIntentId), 5000); // Check every 5 seconds
+        setTimeout(() => checkPaymentStatus(paymentIntentId), 5000);
       }
     } catch (error) {
       // console.error("Error checking payment status:", error);
@@ -159,7 +104,6 @@ const ServicePayment = () => {
     setSelected("propmt-pay");
   }
 
-  // ฟังก์ชันใช้โค้ดส่วนลด
   const applyDiscount = () => {
     if (discountCodes[discountCode]) {
       const discountRate = discountCodes[discountCode];
@@ -169,20 +113,19 @@ const ServicePayment = () => {
         ...bookingData,
         discountCode: discountCode,
         discountValue: discountRate,
-        finalPrice: newFinalPrice, // อัปเดตราคาไปที่ BookingContext
+        finalPrice: newFinalPrice,
       });
     } else {
-      //   toast.error("โค้ดส่วนลดไม่ถูกต้อง!");
       setBookingData({
         ...bookingData,
-        finalPrice: totalPrice, // อัปเดตราคาไปที่ BookingContext
+        finalPrice: totalPrice,
       });
     }
   };
 
   useEffect(() => {
     applyDiscount();
-  }, [discountCode]); // ทำงานทุกครั้งที่ discountCode เปลี่ยน
+  }, [discountCode]);
 
   return (
     <div className="payment-background w-full min-h-full">
@@ -222,7 +165,6 @@ const ServicePayment = () => {
             label="บัตรเครดิต"
           />
         </div>
-
         {selected === "credit-card" && (
           <form className="flex flex-col gap-6">
             <label className="font-[500] text-[16px] text-[#323640]">
@@ -235,19 +177,7 @@ const ServicePayment = () => {
                   setCardNumber(e.complete);
                 }}
               />
-            </label>
-            {/* <label className="font-[500] text-[16px] text-[#323640]">
-              ชื่อบนบัตร
-              <span className="text-red-600">*</span>
-              <input
-                className="w-full h-[44px] mt-1 border border-solid border-[#CCD0D7] focus:border-[#336DF2] rounded-[8px] py-2.5 pl-4 text-[#232630] placeholder:font-[400] placeholder:text-[16px] placeholder:text-[#646C80] placeholder:focus:text-[#232630]"
-                type="name"
-                placeholder="กรุณากรอกชื่อบนบัตร"
-                value={cardName}
-                onChange={(e) => setCardName(e.target.value)}
-                required
-              />
-            </label> */}
+            </label>           
             <div className="flex flex-col gap-6 md:flex-row">
               <label className="font-[500] text-[16px] text-[#323640] md:basis-1/2">
                 วันหมดอายุ
@@ -274,9 +204,7 @@ const ServicePayment = () => {
               </label>
             </div>
           </form>
-        )}
-
-        {/* <hr className="border-solid border-[1px] border-[#CCD0D7]  md:mt-6 md:mb-3" /> */}
+        )}      
 
         <label className="font-[500] text-[16px] text-[#323640]">
           Promotion Code

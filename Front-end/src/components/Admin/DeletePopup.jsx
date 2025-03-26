@@ -8,8 +8,6 @@ const DeletePopup = ({ isOpen, onClose, itemToDelete, onDeleteConfirm  }) => {
         }
       };
     
-
-
   if (!isOpen) return null;
   return (
     <div>

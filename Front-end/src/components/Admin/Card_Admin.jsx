@@ -5,15 +5,15 @@ import DeletePopup from "./DeletePopup";
 import { toast } from "react-toastify";
 
 const categoryStyles = {
-  ชำระเงินแล้ว: {
+  Confirmed: {
     backgroundColor: "#66ff66",
     color: "#323640",
   },
-  กำลังดำเนินการ: {
+  "Checked In": {
     backgroundColor: "#ff6699",
     color: "#323640",
   },
-  ดำเนินการสำเร็จ: {
+  "Checked Out": {
     backgroundColor: "#3399ff",
     color: "#00596C",
   },
@@ -36,12 +36,11 @@ const extraPrices = {
 
 const Card_Admin = () => {
   const [bookingDetails, setBookingDetail] = useState([]);
-  const [searchEmail, setSearchEmail] = useState(""); // ⭐ เก็บค่าอีเมลที่ป้อน
+  const [searchEmail, setSearchEmail] = useState(""); 
   const [showDetail, setShowDetail] = useState(null);
-  const [deleteItem, setDeleteItem] = useState(null); // เก็บข้อมูลที่ต้องการลบ
+  const [deleteItem, setDeleteItem] = useState(null); 
   const [statusMap, setStatusMap] = useState({});
 
-    
   const handleStatusChange = async (id, newStatus) => {
     try {
       const response = await axios.patch(
@@ -50,21 +49,13 @@ const Card_Admin = () => {
       );
       console.log(response.data);
       toast.success("Status updated successfully!");
-    //   window.location.href =  "/admin";
-    // setShowDetail(null)
-
-      // อัปเดตค่า status ใน state ทันที
-    //   setStatusMap((prev) => ({
-    //     ...prev,
-    //     [id]: newStatus,
-    //   }));
     } catch (error) {
       console.error("Error updating status:", error);
       toast.error("Failed to update status.");
     }
   };
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchBookingData = async () => {
       try {
         const response = await axios.get(`http://localhost:4000/api`);
@@ -83,16 +74,16 @@ const Card_Admin = () => {
 
   const ShowPrice = (roomType) => {
     const room = rooms.find((room) => room.type === roomType);
-    return room ? room.price : ""; // ถ้าหาได้ให้แสดงภาพ ถ้าไม่ได้ให้ส่งค่าเป็นค่าว่าง
+    return room ? room.price : "";
   };
 
   const DisplayImage = (roomType) => {
     const room = rooms.find((room) => room.type === roomType);
-    return room ? room.image : ""; // ถ้าหาได้ให้แสดงภาพ ถ้าไม่ได้ให้ส่งค่าเป็นค่าว่าง
+    return room ? room.image : "";
   };
 
   const filteredBookings = bookingDetails.filter(
-    (booking) => booking.email.toLowerCase().includes(searchEmail.toLowerCase()) // ⭐ กรองข้อมูลตามอีเมล
+    (booking) => booking.email.toLowerCase().includes(searchEmail.toLowerCase()) 
   );
 
   const formatDate = (dateString) => {
@@ -107,16 +98,16 @@ const Card_Admin = () => {
   };
 
   const isShow = (index) => {
-    setShowDetail(showDetail === index ? null : index); // ใช้ `showDetail` แทน `setShowDetail`
+    setShowDetail(showDetail === index ? null : index); 
   };
 
   const handleDeleteConfirm = async (id) => {
-    console.log(id);
+    //console.log(id);
     try {
       await axios.delete(`http://localhost:4000/api/delete/${id}`);
       setBookingDetail((prev) => prev.filter((item) => item.id !== id));
-      setDeleteItem(null); // ปิด popup หลังจากลบสำเร็จ
-      toast.success('Delete successfully!')
+      setDeleteItem(null);
+      toast.success("Delete successfully!");
     } catch (error) {
       console.error("Error deleting booking:", error);
     }
@@ -124,14 +115,13 @@ const Card_Admin = () => {
 
   return (
     <div className="booking-history ">
-      {/* ✅ ช่องค้นหา Email */}
       <div className="mb-5 ">
         <input
           type="text"
           placeholder="Search by email..."
           className="border border-gray-400 p-2 rounded-lg w-full"
           value={searchEmail}
-          onChange={(e) => setSearchEmail(e.target.value)} // ⭐ อัปเดตค่าอีเมลที่ป้อน
+          onChange={(e) => setSearchEmail(e.target.value)} 
         />
       </div>
       <div>
@@ -187,9 +177,6 @@ const Card_Admin = () => {
                     <div className="px-5 bg-gray-200 rounded-b-2xl ">
                       <div className="flex flex-row justify-between py-5">
                         <h3>2Guests (1 Night)</h3>
-                        {/* <h3 className="bg-green-400 text-green-800 px-2 rounded-2xl">
-                        {bookingDetail.status}
-                      </h3> */}
                         <select
                           className="border-1 rounded-sm "
                           style={
@@ -201,17 +188,17 @@ const Card_Admin = () => {
                           value={
                             statusMap[bookingDetail.id] || bookingDetail.status
                           }
-                          onChange={(e) => setStatusMap((prev) => ({
-                            ...prev,
-                            [bookingDetail.id]: e.target.value
-                          }))}
+                          onChange={(e) =>
+                            setStatusMap((prev) => ({
+                              ...prev,
+                              [bookingDetail.id]: e.target.value,
+                            }))
+                          }
                         >
-                          <option value="ชำระเงินแล้ว">
-                          ชำระเงินแล้ว
-                          </option>
-                          <option value="กำลังดำเนินการ">กำลังดำเนินการ</option>
-                          <option value="ดำเนินการสำเร็จ">
-                            ดำเนินการสำเร็จ
+                          <option value="Confirmed">Confirmed</option>
+                          <option value="Checked In">Checked In</option>
+                          <option value="Checked Out">
+                            Checked Out
                           </option>
                         </select>
                       </div>
@@ -243,11 +230,9 @@ const Card_Admin = () => {
                           bookingDetail.price != null
                             ? Math.abs(
                                 bookingDetail.price - bookingDetail.total_price
-                              ).toLocaleString() // แสดงผลตัวเลขพร้อม , คั่นหลักพัน
+                              ).toLocaleString() 
                             : "0"}
                         </h3>
-
-                        {/* <h3 className="font-medium">- {bookingDetail.total_price ? (bookingDetail.price-bookingDetail.total_price) : ""}</h3> */}
                       </div>
                       <hr className="text-gray-500"></hr>
                       <div className="flex flex-row justify-between py-2">
@@ -268,15 +253,20 @@ const Card_Admin = () => {
                   </button>
                   <button
                     className="bg-green-500 p-2 rounded-2xl text-gray-200 w-17"
-                    onClick={() => handleStatusChange(bookingDetail.id, statusMap[bookingDetail.id])}
+                    onClick={() =>
+                      handleStatusChange(
+                        bookingDetail.id,
+                        statusMap[bookingDetail.id]
+                      )
+                    }
                   >
                     Update
                   </button>
                 </div>
               </div>
               <DeletePopup
-                isOpen={deleteItem !== null} // ✅ ถ้ามีค่า index แสดง popup
-                onClose={() => setDeleteItem(null)} // ✅ ปิด popup
+                isOpen={deleteItem !== null} 
+                onClose={() => setDeleteItem(null)} 
                 itemToDelete={deleteItem}
                 onDeleteConfirm={handleDeleteConfirm}
               />

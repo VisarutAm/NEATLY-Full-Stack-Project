@@ -133,15 +133,14 @@ return res.status(200).json({
 
 //Update Status By Admin
 booking.patch("/update-status/:id",[verifyAdmin], async (req, res) => {
-  const bookingId = req.params.id; // รับค่า ID จาก URL
-  const { status } = req.body; // รับค่าที่ต้องการอัปเดตจาก body
+  const bookingId = req.params.id; 
+  const { status } = req.body; 
 
   if (!status) {
     return res.status(400).json({ message: "Status is required" });
   }
 
-  try {
-    // ตรวจสอบว่ามี Booking นี้อยู่หรือไม่
+  try {    
     const checkBooking = await connectionPool.query(
       "SELECT * FROM bookings WHERE id = $1",
       [bookingId]
@@ -150,8 +149,7 @@ booking.patch("/update-status/:id",[verifyAdmin], async (req, res) => {
     if (checkBooking.rows.length === 0) {
       return res.status(404).json({ message: "Booking not found" });
     }
-
-    // อัปเดตเฉพาะ status
+   
     const query = `
       UPDATE bookings
       SET status = $1
@@ -170,6 +168,5 @@ booking.patch("/update-status/:id",[verifyAdmin], async (req, res) => {
     return res.status(500).json({ message: "Update failed", error });
   }
 });
-
 
 export default booking;

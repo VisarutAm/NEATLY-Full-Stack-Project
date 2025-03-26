@@ -20,7 +20,7 @@ const extraPrices = {
 
 const Card_User = () => {
   const [bookingDetails, setBookingDetail] = useState([]);
-  const { email } = useParams(); // ดึงค่า email จาก URL
+  const { email } = useParams();
   const [showDetail, setShowDetail] = useState(false);
 
   const ShowExtrasPrice = (extraName) => {
@@ -29,16 +29,16 @@ const Card_User = () => {
 
   const ShowPrice = (roomType) => {
     const room = rooms.find((room) => room.type === roomType);
-    return room ? room.price : ""; // ถ้าหาได้ให้แสดงภาพ ถ้าไม่ได้ให้ส่งค่าเป็นค่าว่าง
+    return room ? room.price : "";
   };
 
   const DisplayImage = (roomType) => {
     const room = rooms.find((room) => room.type === roomType);
-    return room ? room.image : ""; // ถ้าหาได้ให้แสดงภาพ ถ้าไม่ได้ให้ส่งค่าเป็นค่าว่าง
+    return room ? room.image : "";
   };
 
   useEffect(() => {
-    if (!email) return; // ถ้า userEmail ยังไม่มีค่า ไม่ต้อง fetch
+    if (!email) return;
 
     const fetchBookingData = async () => {
       try {
@@ -65,7 +65,7 @@ const Card_User = () => {
   };
 
   const isShow = () => {
-    setShowDetail(!showDetail); // ใช้ `showDetail` แทน `setShowDetail`
+    setShowDetail(!showDetail);
   };
 
   return (
@@ -139,11 +139,9 @@ const Card_User = () => {
                         bookingDetail.price != null
                           ? Math.abs(
                               bookingDetail.price - bookingDetail.total_price
-                            ).toLocaleString() // แสดงผลตัวเลขพร้อม , คั่นหลักพัน
+                            ).toLocaleString()
                           : "0"}
                       </h3>
-
-                      {/* <h3 className="font-medium">- {bookingDetail.total_price ? (bookingDetail.price-bookingDetail.total_price) : ""}</h3> */}
                     </div>
                     <hr className="text-gray-500"></hr>
                     <div className="flex flex-row justify-between py-2">
@@ -155,17 +153,6 @@ const Card_User = () => {
                   </div>
                 )}
               </div>
-
-              {/* <div className="item-3 flex flex-col justify-between w-80 "> */}
-              {/* <div>
-                <p className="line-through font-inter font-normal text-gray-600 text-end">THB 3,100.00</p>
-                <p className="font-inter text-xl font-bold text-end">THB {bookingDetail.price}</p>
-                <br></br>
-                <p className="font-inter font-normal text-gray-600 text-end text-sm">Per Night</p>
-                <p className="font-inter font-normal text-gray-600 text-end text-sm">(Including Taxes & Fees)</p>
-                </div> */}
-              {/* <button className="btn-booking text-amber-900  bg-amber-500 p-2 rounded-sm" onClick={() => handleNext(room)}>Book Now</button> */}
-              {/* </div> */}
             </div>
           </div>
         ))}

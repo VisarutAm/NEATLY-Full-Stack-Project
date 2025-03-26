@@ -21,19 +21,18 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleSignOut = () => {
-    signOut(); // เรียกใช้งานฟังก์ชัน signOut
-    navigate("/"); // นำทางไปยังหน้าแรก
+    signOut(); 
+    navigate("/");
   };
 
   const getRandomAvatar = (avatar) => {
-    const keys = Object.keys(avatar);  // ดึง keys ของ object ออกมา
-    const randomKey = keys[Math.floor(Math.random() * keys.length)];  // สุ่ม key
-    return avatar[randomKey];  // คืนค่าของ key ที่สุ่มได้
+    const keys = Object.keys(avatar); 
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];  
+    return avatar[randomKey];  
   };
 
   return (
-    <>
-      {/* <div className="navbar mr-5 sticky top-0 z-50"> */}
+    <>      
       <div className="navbar mr-5 z-50">
         <div className="navbar bg-base-100 shadow-sm ">
           <div className="navbar-start">
