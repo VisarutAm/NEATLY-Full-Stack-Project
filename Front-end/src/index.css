@@ -23,5 +23,9 @@
     --font-noto:Noto,"serif";
     --color-green-800:#2F3E35;
     --color-green-700:#465C50;
+    --color-green-600:#5D7B6A;
+    --color-green-300:#D5DFDA;
+    --color-gray-600:#9AA1B9;
+    --color-gray-800:#424C6B;
     --breakpoint-se:25rem;
 }

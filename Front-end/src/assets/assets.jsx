@@ -21,6 +21,8 @@ import houseLogo from "./houseLogo.png";
 import mail_icon from "./mail_icon.png";
 import tel_icon from "./tel_icon.png";
 import placeholder from "./placeholder.png";
+import notebook from "./notebook.png";
+
 
 export const assets = {
   logo,
@@ -39,7 +41,14 @@ export const assets = {
   mail_icon,
   tel_icon,
   logo_2,
-  placeholder
+  placeholder,
+  image_1:image_1,
+  image_2:image_2,
+  image_3:image_3,
+  image_4:image_4,
+  image_5:image_5,
+  image_6:image_6,
+  notebook
 };
 
 export const rooms = [image_1, image_2, image_3, image_4, image_5, image_6];

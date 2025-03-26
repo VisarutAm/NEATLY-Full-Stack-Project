@@ -54,8 +54,8 @@ const RoomSuits = () => {
               className="w-full h-full hover:blur-sm rounded-xl"
               src={rooms[3]}
             />
-            <div className="absolute inset-0 rounded-xl flex flex-col items-center justify-center bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4">
-              <Category text="Deluxe Room" />
+            <div className="absolute inset-0 rounded-xl flex flex-col items-start justify-end bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-10">
+              <Category text="Premier Sea View" />
               <Button />
             </div>
           </div>
@@ -66,8 +66,8 @@ const RoomSuits = () => {
                 className="w-full hover:blur-[3px] rounded-xl"
                 src={rooms[4]}
               />
-              <div className="absolute inset-0 rounded-xl flex flex-col items-center justify-center bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4">
-                <Category text="Superior Room" />
+              <div className="absolute inset-0 rounded-xl flex flex-col items-start justify-end bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-10">
+                <Category text="Supreme" />
                 <Button />
               </div>
             </div>
@@ -77,8 +77,8 @@ const RoomSuits = () => {
                 className="w-full hover:blur-[3px] rounded-xl"
                 src={rooms[5]}
               />
-              <div className="absolute inset-0 rounded-xl flex flex-col items-center justify-center bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4">
-                <Category text="Luxury Suite" />
+              <div className="absolute inset-0 rounded-xl flex flex-col items-start justify-end bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-10">
+                <Category text="Suite" />
                 <Button />
               </div>
             </div>

@@ -1,10 +1,11 @@
 import express from "express";
 import { supabase } from "../utils/supabase-client.mjs";
+import { validationAuth } from "../middlewares/auth-validation.mjs";
 
-const router = express.Router();
+const auth = express.Router();
 
 //Sign Up
-router.post("/signup", async (req, res) => {
+auth.post("/signup", async (req, res) => {
 
     console.log("Request Body:", req.body);
 // console.log("Signup Response:", data);
@@ -64,7 +65,7 @@ router.post("/signup", async (req, res) => {
 // });
 
 // Sign in Admin  
-router.post("/login", async (req, res) => { 
+auth.post("/login", async (req, res) => { 
   const { email, password } = req.body;
 
   // 🔐 ล็อกอิน
@@ -93,7 +94,7 @@ router.post("/login", async (req, res) => {
 });
 
 // Log Out
-router.post("/logout", async (req, res) => {
+auth.post("/logout", async (req, res) => {
   const { error } = await supabase.auth.signOut();
   
   if (error) {
@@ -105,27 +106,38 @@ router.post("/logout", async (req, res) => {
 });
 
 // Backend: ตรวจสอบ Route และให้บริการข้อมูลผู้ใช้
-router.get("/user", async (req, res) => {
-  // ดึง token จาก header
-  const token = req.headers.authorization?.split(" ")[1];  // Extract token from Authorization header
+// auth.get("/user",[validationAuth],async (req, res) => {
+//   // ดึง token จาก header
+//   const token = req.headers.authorization?.split(" ")[1];  // Extract token from Authorization header
 
-  if (!token) {
-    return res.status(401).json({ error: "Unauthorized: No token provided" });
-  }
+//   if (!token) {
+//     return res.status(401).json({ error: "Unauthorized: No token provided" });
+//   }
 
+//   try {
+//     // ใช้ Supabase เพื่อตรวจสอบ token และดึงข้อมูลผู้ใช้
+//     const { data: userData, error } = await supabase.auth.getUser(token);
+
+//     if (error) {
+//       return res.status(400).json({ error: error.message });
+//     }
+
+//     res.status(200).json({ user: userData.user });
+//   } catch (err) {
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
+auth.get("/user", [validationAuth], async (req, res) => {
   try {
-    // ใช้ Supabase เพื่อตรวจสอบ token และดึงข้อมูลผู้ใช้
-    const { data: userData, error } = await supabase.auth.getUser(token);
-
-    if (error) {
-      return res.status(400).json({ error: error.message });
-    }
-
-    res.status(200).json({ user: userData.user });
+      // ข้อมูลผู้ใช้จะถูกเก็บใน req.user หลังจากผ่าน middleware validationAuth
+      const userData = req.user;
+      
+      res.status(200).json({ user: userData.user });
   } catch (err) {
-    res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 
-export default router;
+
+export default auth;
