@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import userAuth from "../../context/AuthContext";
+import  userAuth  from "../../context/AuthContext";
 
 const LoginModal = ({ isOpen, onClose }) => {
-  const [currState, setCurrState] = useState("Sign in");
+  const [currState, setCurrState] = useState("Sign in"); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [displayName, setDisplayName] = useState("");
+  const [displayName, setDisplayName] = useState(""); 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const { signUpNewUser, signIn } = userAuth();
+  const { signUpNewUser, signIn, signInGoogle } = userAuth(); 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -42,8 +42,8 @@ const LoginModal = ({ isOpen, onClose }) => {
         setTimeout(() => {
           onClose();
           navigate("/");
-        }, 300);
-      } else {
+        }, 300); 
+      } else {      
         setError(result.error || `${currState} failed`);
         toast.error(result.error || `${currState} failed`);
       }
@@ -56,14 +56,11 @@ const LoginModal = ({ isOpen, onClose }) => {
   };
 
   if (!isOpen) return null;
-
+ 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black/60 z-50">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-lg w-96 relative"
-      >
-        <button
+      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
+                <button
           className="absolute top-3 right-3 text-gray-600 hover:text-gray-800"
           onClick={onClose}
         >
@@ -72,6 +69,7 @@ const LoginModal = ({ isOpen, onClose }) => {
 
         <h2 className="text-2xl font-semibold text-center mb-4">{currState}</h2>
 
+     
         {currState === "Sign Up" && (
           <input
             type="text"
@@ -110,33 +108,30 @@ const LoginModal = ({ isOpen, onClose }) => {
         {error && <p className="text-red-600 text-center pt-4">{error}</p>}
 
         <div className="flex items-center mt-4">
-          <input type="checkbox" className="mr-2" required />
+          <input type="checkbox" className="mr-2"  required/>
           <span className="text-sm text-gray-600">
             By continuing, I agree to the terms of use & privacy policy.
           </span>
         </div>
-
+           
         {currState === "Sign Up" ? (
           <p className="text-center mt-3 text-sm">
             Already have an account?{" "}
-            <span
-              className="text-red-500 cursor-pointer"
-              onClick={() => setCurrState("Login")}
-            >
+            <span className="text-red-500 cursor-pointer" onClick={() => setCurrState("Login")}>
               Login here
             </span>
           </p>
         ) : (
           <p className="text-center mt-3 text-sm">
             Create a new account?{" "}
-            <span
-              className="text-red-500 cursor-pointer"
-              onClick={() => setCurrState("Sign Up")}
-            >
+            <span className="text-red-500 cursor-pointer" onClick={() => setCurrState("Sign Up")}>
               Click here
             </span>
           </p>
         )}
+      <hr className="my-2 text-gray-500"></hr>
+      <button  type="button" className="w-full py-2 rounded-lg hover:bg-blue-300 border-blue-500 border-2"
+       onClick={signInGoogle}>Sign in with Google</button>
       </form>
     </div>
   );

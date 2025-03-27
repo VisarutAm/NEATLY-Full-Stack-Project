@@ -18,8 +18,8 @@ export const BookingProvider = ({ children }) => {
 
  
    const handleBooking = async () => {
-    console.log("Booking data before sending:", bookingData);
-    console.log("handleBooking function called");
+    //console.log("Booking data before sending:", bookingData);
+    //console.log("handleBooking function called");
    
     const bookingInfo = {
       user_name: bookingData.guestInfo?.name || "",
@@ -33,7 +33,7 @@ export const BookingProvider = ({ children }) => {
       status: "Confirmed",
       extras: bookingData.extras || [],
     };
-    console.log("Sending booking data:", bookingInfo);
+    //console.log("Sending booking data:", bookingInfo);
 
   
     try {
@@ -42,12 +42,10 @@ export const BookingProvider = ({ children }) => {
         "http://localhost:4000/api/submit-booking",
         bookingInfo 
       );
-      console.log("Booking response:", response.data);
-      alert("Booking successful!");
+      console.log("Booking response:", response.data);    
       window.location.href =  `/bookinghistory/${bookingData.guestInfo?.email}`;
     } catch (error) {
-      console.error("Error:", error);
-      alert("Booking failed!");
+      console.error("Error:", error.message);     
     }
   };
   

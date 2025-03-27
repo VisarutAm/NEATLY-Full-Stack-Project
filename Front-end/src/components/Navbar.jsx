@@ -4,33 +4,19 @@ import { Link, useNavigate } from "react-router-dom";
 import LoginModal from "./Home/SignupPopup";
 import userAuth from "../context/AuthContext";
 
-const avatar = {
-  panda: assets.panda,
-  cat: assets.cat,
-  man: assets.man,
-};
-
 const Navbar = () => {
   const { session, signOut } = userAuth();
-
-  console.log("session", session);
-
   const [menu, setMenu] = useState("home");
   const [showSignup, setShowSignup] = useState(false);
 
+  console.log(session?.user?.user_metadata?.picture)
   const navigate = useNavigate();
 
   const handleSignOut = () => {
     signOut(); 
     navigate("/");
   };
-
-  const getRandomAvatar = (avatar) => {
-    const keys = Object.keys(avatar); 
-    const randomKey = keys[Math.floor(Math.random() * keys.length)];  
-    return avatar[randomKey];  
-  };
-
+  
   return (
     <>      
       <div className="navbar mr-5 z-50">
@@ -116,16 +102,16 @@ const Navbar = () => {
             ) : (
               <div className="flex flex-row gap-6">
                 <p className="p-1 text-2xl">
-                  {session?.user?.user_metadata?.displayName}
+                  {session?.user?.user_metadata?.displayName || session?.user?.user_metadata?.full_name}
                 </p>
                 <div className="navbar-profile relative group mr-15 border-amber-500 border-3 rounded-full">
                   <img
-                    src={assets.panda}
+                    src={session?.user?.user_metadata?.picture || assets.panda}
                     alt=""
                     width={40}
                     className="rounded-full cursor-pointer"
                   />
-                  <ul className="navbar-profile-dropdown absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-100 border-green-800 border-2">
+                  <ul className="navbar-profile-dropdown absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-100 border-green-800 border-2 cursor-pointer">
                     <li
                       onClick={() => navigate("/booking")}
                       className="text-center font-medium"

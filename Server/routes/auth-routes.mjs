@@ -64,19 +64,6 @@ auth.post("/login", async (req, res) => {
   });
 });
 
-// Log Out
-auth.post("/logout", async (req, res) => {
-  const { error } = await supabase.auth.signOut();
-  
-  if (error) {
-    console.error("There was an error:", error);
-    return res.status(400).json({ error: error.message });
-  }
-
-  res.status(200).json({ success: true, message: "Logout successful" });
-});
-
-
 auth.get("/user", [validationAuth], async (req, res) => {
   try {     
       const userData = req.user;
@@ -87,6 +74,40 @@ auth.get("/user", [validationAuth], async (req, res) => {
   }
 });
 
+//Sign In Google
+auth.post("/logingoogle", async (req, res) => { 
+  console.log("Received request to /logingoogle"); // Log to see request
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+  });
+
+  if (error) {
+    console.error("Error during Google login:", error.message); // Log error
+    return res.status(400).json({ error: error.message });
+  }
+
+  console.log("Google OAuth login success. Data received:", data); // Log data
+  if (!data?.session) {
+    console.error("No session returned from Supabase");
+    return res.status(400).json({ error: "No session returned" });
+  }
+
+  const { data: userData, error: userError } = await supabase.auth.getUser(data.session.access_token);
+
+  if (userError) {
+    console.error("Error getting user data:", userError.message);
+    return res.status(400).json({ error: userError.message });
+  }
+
+  console.log("Login successful! Returning response..."); // Log response
+  res.status(200).json({
+    success: true,
+    message: "Login successful",
+    user: userData.user, 
+    session: data.session,
+  });
+});
 
 
 export default auth;
