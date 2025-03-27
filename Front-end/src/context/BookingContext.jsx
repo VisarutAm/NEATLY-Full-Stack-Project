@@ -43,7 +43,8 @@ export const BookingProvider = ({ children }) => {
         bookingInfo 
       );
       //console.log("Booking response:", response.data);    
-      window.location.href =  `/bookinghistory/${bookingData.guestInfo?.email}`;
+      // window.location.href =  `/bookinghistory/${bookingData.guestInfo?.email}`;
+       window.location.href =  "/";
     } catch (error) {
       console.error("Error:", error.message);     
     }
