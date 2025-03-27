@@ -2,9 +2,9 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node app.mjs",
+  "main": "app.mjs",
+    "scripts": {
+    "start": "nodemon app.mjs",
     "dev": "nodemon app.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
