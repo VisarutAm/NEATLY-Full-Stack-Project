@@ -265,7 +265,7 @@ const BookingProcess = () => {
                 className="bg-gray-500 text-white px-4 py-2 rounded-md mt-15"
                 onClick={() => navigate("/booking")}
               >
-                ย้อนกลับ
+                Back
               </button>
             )}
             {step > 1 && (
@@ -274,7 +274,7 @@ const BookingProcess = () => {
                   className="bg-gray-500 text-white px-4 py-2  rounded-md  mr-30"
                   onClick={() => setStep((prev) => prev - 1)}
                 >
-                  ย้อนกลับ
+                  Back
                 </button>
                 <button
                   className="bg-green-600 text-white px-4 py-2 rounded-md "
@@ -291,7 +291,7 @@ const BookingProcess = () => {
                 onClick={handleNext}
                 disabled={!isValid}
               >
-                ถัดไป
+                Next
               </button>
             )}
           </div>

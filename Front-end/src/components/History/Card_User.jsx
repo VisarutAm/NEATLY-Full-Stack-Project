@@ -21,7 +21,7 @@ const extraPrices = {
 const Card_User = () => {
   const [bookingDetails, setBookingDetail] = useState([]);
   const { email } = useParams();
-  const [showDetail, setShowDetail] = useState(false);
+  const [showDetail, setShowDetail] = useState(null);
 
   const ShowExtrasPrice = (extraName) => {
     return extraPrices[extraName] || 0;
@@ -64,8 +64,8 @@ const Card_User = () => {
     });
   };
 
-  const isShow = () => {
-    setShowDetail(!showDetail);
+  const isShow = (index) => {
+    setShowDetail(showDetail === index ? null : index); 
   };
 
   return (
@@ -104,9 +104,11 @@ const Card_User = () => {
               <div className=" rounded-2xl my-5">
                 <div className="flex flex-row justify-between bg-gray-400 p-3 ">
                   <h2 className="font-medium">Booking Detail</h2>
-                  <button onClick={isShow}>{showDetail ? "▼" : "▲"}</button>
+                  <button onClick={() => isShow(index)}>
+                      {showDetail === index ? "▼" : "▲"}
+                    </button>
                 </div>
-                {showDetail && (
+                {showDetail === index && (
                   <div className="px-5 bg-gray-200 rounded-b-2xl ">
                     <div className="flex flex-row justify-between py-5">
                       <h3>2Guests (1 Night)</h3>

@@ -157,7 +157,7 @@ const ServicePayment = () => {
                 sx={{ fontSize: isMdUp ? "35px" : "28px" }}
               />
             }
-            label="พร้อมเพย์"
+            label="Qr Code"
           />
 
           <PaymentRadio
@@ -174,13 +174,13 @@ const ServicePayment = () => {
                 sx={{ fontSize: isMdUp ? "35px" : "28px" }}
               />
             }
-            label="บัตรเครดิต"
+            label="Card Number"
           />
         </div>
         {selected === "credit-card" && (
           <form className="flex flex-col gap-6">
             <label className="font-[500] text-[16px] text-[#323640]">
-              หมายเลขบัตรเครดิต
+              Card Number
               <span className="text-red-600">*</span>
               <CardNumberElement
                 id="card-number"
@@ -192,7 +192,7 @@ const ServicePayment = () => {
             </label>
             <div className="flex flex-col gap-6 md:flex-row">
               <label className="font-[500] text-[16px] text-[#323640] md:basis-1/2">
-                วันหมดอายุ
+              Expiration date
                 <span className="text-red-600">*</span>
                 <CardExpiryElement
                   id="card-expiry"
@@ -224,7 +224,7 @@ const ServicePayment = () => {
             <input
               className="w-full h-full border border-solid border-[#CCD0D7] focus:border-[#336DF2] rounded-[8px] pb-6 md:py-0 px-4 text-[#232630] placeholder:font-[400] placeholder:text-[16px] placeholder:focus:text-[#232630] placeholder:text-[#646C80] placeholder:text-wrap basis-2/3 md:basis-1/2 flex items-center"
               type="text"
-              placeholder="กรุณากรอกโค้ดส่วนลด (ถ้ามี)"
+              placeholder=" "
               value={discountCode}
               onChange={(e) => setDiscountCode(e.target.value.toUpperCase())}
             />
@@ -244,7 +244,7 @@ const ServicePayment = () => {
                         className="bg-amber-300 text-black px-4 py-2 w-full rounded-xl"
                         onClick={() => handleCopy(code)}
                       >
-                        {code}
+                        {code}&nbsp;&nbsp;🔗
                       </button>
                     ))}
                   </div>
