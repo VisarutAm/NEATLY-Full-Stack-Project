@@ -95,7 +95,7 @@ const BookingProcess = () => {
     try {
       //console.log("Final Price:", finalPrice);
       const response = await axios.post(
-        "http://localhost:4000/api/create-payment-intent",
+        `${import.meta.env.VITE_API_URL}/api/create-payment-intent`,
         {
           amount: finalPrice * 100, //
           currency: "thb",

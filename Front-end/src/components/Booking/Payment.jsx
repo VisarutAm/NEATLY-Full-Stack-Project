@@ -55,7 +55,7 @@ const ServicePayment = () => {
   const genQR = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/create-payment-intent",
+        `${import.meta.env.VITE_API_URL}/api/create-payment-intent`,
         {
           amount: finalPrice * 100,
           currency: "thb",
@@ -87,7 +87,7 @@ const ServicePayment = () => {
   const checkPaymentStatus = async (paymentIntentId) => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/payment-status/${paymentIntentId}`
+        `${import.meta.env.VITE_API_URL}/api/payment-status/${paymentIntentId}`
       );
       //console.log("responses:", response);
       if (response.data.status === "succeeded") {

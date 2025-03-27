@@ -39,7 +39,7 @@ export const BookingProvider = ({ children }) => {
     try {
       //console.log("Sending POST request...");
       const response = await axios.post(
-        "http://localhost:4000/api/submit-booking",
+        `${import.meta.env.VITE_API_URL}/api/submit-booking`,
         bookingInfo 
       );
       //console.log("Booking response:", response.data);    

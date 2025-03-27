@@ -44,7 +44,7 @@ const Card_Admin = () => {
   const handleStatusChange = async (id, newStatus) => {
     try {
       const response = await axios.patch(
-        `http://localhost:4000/api/update-status/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/update-status/${id}`,
         { status: newStatus }
       );
       //console.log(response.data);
@@ -58,7 +58,7 @@ const Card_Admin = () => {
   useEffect(() => {
     const fetchBookingData = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/api`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api`);
         //console.log(response.data.data);
         setBookingDetail(response.data.data);
       } catch (error) {
@@ -104,7 +104,7 @@ const Card_Admin = () => {
   const handleDeleteConfirm = async (id) => {
     //console.log(id);
     try {
-      await axios.delete(`http://localhost:4000/api/delete/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/delete/${id}`);
       setBookingDetail((prev) => prev.filter((item) => item.id !== id));
       setDeleteItem(null);
       toast.success("Delete successfully!");

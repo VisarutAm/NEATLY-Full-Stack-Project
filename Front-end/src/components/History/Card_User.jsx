@@ -42,7 +42,7 @@ const Card_User = () => {
 
     const fetchBookingData = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/api/${email}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/${email}`);
         //console.log(response.data.data);
         setBookingDetail(response.data.data);
       } catch (error) {
