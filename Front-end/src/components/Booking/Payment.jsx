@@ -13,6 +13,7 @@ import axios from "axios";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { assets } from "../../assets/assets";
 
 const ServicePayment = () => {
   const [selected, setSelected] = useState("credit-card");
@@ -25,9 +26,10 @@ const ServicePayment = () => {
   } = useBooking();
   const isMdUp = useMediaQuery("(min-width: 768px)");
   const stripe = useStripe();
-  const [discountCode, setDiscountCode] = useState(""); // เก็บโค้ดที่ผู้ใช้ป้อน
+  const [discountCode, setDiscountCode] = useState("");
   const [cardNumber, setCardNumber] = useState(false);
-
+  const [showCodeInput, setShowCodeInput] = useState(false);
+ 
   const extraPrices = {
     Breakfast: 150,
     "Extra pillows": 100,
@@ -90,7 +92,7 @@ const ServicePayment = () => {
       //console.log("responses:", response);
       if (response.data.status === "succeeded") {
         handleBooking();
-        toast.success("ชำระเงินสำเร็จ");
+        toast.success("Payment Success!!");
       } else {
         setTimeout(() => checkPaymentStatus(paymentIntentId), 5000);
       }
@@ -104,11 +106,21 @@ const ServicePayment = () => {
     setSelected("propmt-pay");
   }
 
+  const handleCodeClick = () => {
+    setShowCodeInput(!showCodeInput);
+  };
+
+  const handleCopy = (code) => {
+    navigator.clipboard.writeText(code);
+    toast.success(`Copied: ${code}`);
+    setShowCodeInput(false);
+  };
+
   const applyDiscount = () => {
     if (discountCodes[discountCode]) {
       const discountRate = discountCodes[discountCode];
       const newFinalPrice = totalPrice * (1 - discountRate);
-      toast.success("โค้ดส่วนลดถูกต้อง!");
+      toast.success("You have received a discount!");
       setBookingData({
         ...bookingData,
         discountCode: discountCode,
@@ -177,7 +189,7 @@ const ServicePayment = () => {
                   setCardNumber(e.complete);
                 }}
               />
-            </label>           
+            </label>
             <div className="flex flex-col gap-6 md:flex-row">
               <label className="font-[500] text-[16px] text-[#323640] md:basis-1/2">
                 วันหมดอายุ
@@ -204,7 +216,7 @@ const ServicePayment = () => {
               </label>
             </div>
           </form>
-        )}      
+        )}
 
         <label className="font-[500] text-[16px] text-[#323640]">
           Promotion Code
@@ -219,10 +231,25 @@ const ServicePayment = () => {
             <div className="basis-1/3 md:basis-1/2 flex items-center">
               <button
                 className="bg-green-700 max-w-[90px] w-full h-[44px] rounded-lg text-white cursor-pointer"
-                onClick={applyDiscount}
+                onClick={handleCodeClick}
               >
-                ใช้โค้ด
+                <img src={assets.coupon} alt="coupon" className="w-12 ml-5"/>
               </button>
+              {showCodeInput && (
+                <div className="mt-4 bg-amber-200 border-2 rounded-xl">
+                   <div className="space-y-2 rounded-xl">
+                    {Object.keys(discountCodes).map((code) => (
+                      <button
+                        key={code}
+                        className="bg-amber-300 text-black px-4 py-2 w-full rounded-xl"
+                        onClick={() => handleCopy(code)}
+                      >
+                        {code}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </label>

@@ -119,7 +119,7 @@ const BookingProcess = () => {
         if (result.paymentIntent.status === "succeeded") {
           await new Promise((resolve) => setTimeout(resolve, 0));
           handleBooking();
-          toast.success("ชำระเงินสำเร็จ");
+          toast.success("Payment Success!!");
         }
       }
     } catch (error) {
@@ -269,19 +269,19 @@ const BookingProcess = () => {
               </button>
             )}
             {step > 1 && (
-              <div>
+              <div className="" >
                 <button
-                  className="bg-gray-500 text-white px-4 py-2 rounded-md "
+                  className="bg-gray-500 text-white px-4 py-2  rounded-md  mr-30"
                   onClick={() => setStep((prev) => prev - 1)}
                 >
                   ย้อนกลับ
                 </button>
                 <button
-                  className="bg-green-600 text-white px-4 py-2 rounded-md mt-15"
+                  className="bg-green-600 text-white px-4 py-2 rounded-md "
                   onClick={handleSubmit}
                   disabled={loading}
                 >
-                  {loading ? "Wait..." : "ชำระเงิน"}
+                  {loading ? "Wait..." : "Confirm Booking"}
                 </button>
               </div>
             )}

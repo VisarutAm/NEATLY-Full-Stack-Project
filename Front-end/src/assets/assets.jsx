@@ -22,7 +22,7 @@ import mail_icon from "./mail_icon.png";
 import tel_icon from "./tel_icon.png";
 import placeholder from "./placeholder.png";
 import notebook from "./notebook.png";
-
+import coupon from "./coupon.png";
 
 export const assets = {
   logo,
@@ -48,7 +48,8 @@ export const assets = {
   image_4:image_4,
   image_5:image_5,
   image_6:image_6,
-  notebook
+  notebook,
+  coupon
 };
 
 export const rooms = [image_1, image_2, image_3, image_4, image_5, image_6];

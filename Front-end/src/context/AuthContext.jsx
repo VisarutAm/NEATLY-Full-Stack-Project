@@ -142,8 +142,7 @@ export const AuthProvider = ({ children }) => {
         error: error.message || "Logout failed",
       };
     }
-  };
-  
+  };  
 
   // Sign In GooGle 
   const signInGoogle = async () => {

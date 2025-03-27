@@ -35,7 +35,7 @@ const SelectRoom = () => {
     const currentDate = new Date().toISOString().split("T")[0]; // วันที่ปัจจุบัน
 
     if (selectedDate < currentDate) {
-      toast.error("คุณไม่สามารถเลือกวันที่ย้อนกลับได้");
+      toast.error("You cannot select a past date.");
     } else {
       if (type === "checkIn") {
         setCheckIn(selectedDate);
