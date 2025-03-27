@@ -5,7 +5,7 @@ const payment = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2022-11-15",
 });
-console.log("Stripe Secret Key:", process.env.STRIPE_SECRET_KEY);
+
 
 payment.post("/create-payment-intent", async (req, res) => {
   const { amount, currency } = req.body;
