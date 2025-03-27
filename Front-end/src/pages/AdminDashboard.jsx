@@ -1,37 +1,17 @@
-import React from 'react'
-import { useNavigate } from "react-router-dom";
-import  userAuth  from "../context/AuthContext";
+import Navbar from "../components/Navbar";
+import Card_Admin from "../components/Admin/Card_Admin";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // สไตล์ของ toast
 
 
-const Dashboard = () => {
-  const { session } = userAuth();
-  const navigate = useNavigate();
-console.log(session.user.email)
-  // const handleSignOut = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     await signOut();
-  //     navigate("/");
-  //   } catch (err) {
-  //     setError("An unexpected error occurred."); 
-  //   }
-  // };
-  // console.log(session.user.email);
-
+const AdminDashboard = () => { 
   return (
     <div>
-      <h1>AdminDashboard</h1>
-      {/* <h2>Welcome, {session?.user?.email}</h2>
-      <div>
-        <p
-          onClick={handleSignOut}
-          className="hover:cursor-pointer  border inline-block px-4 py-3 mt-4 "
-        >
-          Sign out
-        </p>
-      </div> */}
+      <ToastContainer/>
+      <Navbar />
+      <Card_Admin/>
     </div>
-  )
+  );
 }
 
-export default Dashboard
+export default AdminDashboard

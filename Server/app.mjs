@@ -1,16 +1,21 @@
 import express from "express"
 import cors from "cors";
 import "dotenv/config";
-import router from "./routes/auth-routes.mjs";
+import auth from "./routes/auth-routes.mjs";
+import payment from "./routes/payment-routes.mjs";
+import booking from "./routes/booking-routes.mjs";
 
 const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(cors());
+//app.use(cors({ origin: 'https://yourfrontend.com' }));
+
 app.use(express.json());
 
-app.use('/api', router);
-
+app.use('/api', auth);
+app.use('/api', payment);
+app.use('/api', booking);
 
 
 app.get("/test", (req, res) => {

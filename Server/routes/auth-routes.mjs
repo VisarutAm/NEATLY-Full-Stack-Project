@@ -1,23 +1,22 @@
 import express from "express";
 import { supabase } from "../utils/supabase-client.mjs";
+import { validationAuth } from "../middlewares/auth-validation.mjs";
 
-const router = express.Router();
+const auth = express.Router();
 
 //Sign Up
-router.post("/signup", async (req, res) => {
+auth.post("/signup", async (req, res) => {
 
     console.log("Request Body:", req.body);
 // console.log("Signup Response:", data);
 
     try {
-      const { email, password, displayName } = req.body;
-  
-      // ✅ ตรวจสอบว่ามีค่าครบหรือไม่
+      const { email, password, displayName } = req.body;  
+      
       if (!email || !password || !displayName) {
         return res.status(400).json({ success: false, error: "Please fill in all required fields." });
       }
-  
-      // ✅ ทำการสมัครสมาชิก
+      
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -26,15 +25,13 @@ router.post("/signup", async (req, res) => {
          
         },
       });
-  
-      // ✅ ตรวจสอบว่ามี error หรือไม่
+        
       if (error) {
         console.error("Signup Error:", error.message);
         return res.status(400).json({ success: false, error: error.message });
       }
-  
-      // ✅ ถ้าสำเร็จ ให้ส่งข้อมูลกลับ
-      console.log("Signup Success - Sending response:", { success: true, data }); // ✅ Debug
+      
+      console.log("Signup Success - Sending response:", { success: true, data }); 
       res.status(201).json({ success: true, data });
     } catch (err) {
       console.error("Server Error:", err);
@@ -42,33 +39,10 @@ router.post("/signup", async (req, res) => {
     }
   });
 
-// Sign in
-// router.post("/login", async (req, res) => {
-//   const { email, password } = req.body;
-
-//   const { data, error } = await supabase.auth.signInWithPassword({
-//     email,
-//     password,
-//   });
-
-//   if (error) {
-//     return res.status(400).json({ error: error.message });
-//   }
-
-//   res.status(200).json({
-//     success: true,
-//     message: "Login successful",
-//     user: data.user,
-//     session: data.session,
-//   });
-// });
-
-// Sign in Admin  
-router.post("/login", async (req, res) => { 
+// Sign in 
+auth.post("/login", async (req, res) => { 
   const { email, password } = req.body;
-
-  // 🔐 ล็อกอิน
-  const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
@@ -76,56 +50,64 @@ router.post("/login", async (req, res) => {
   if (error) {
     return res.status(400).json({ error: error.message });
   }
-
-  // 🔍 ดึงข้อมูล User
+  
   const { data: userData, error: userError } = await supabase.auth.getUser(data.session.access_token);
 
   if (userError) {
     return res.status(400).json({ error: userError.message });
   }
-
   res.status(200).json({
     success: true,
     message: "Login successful",
-    user: userData.user, // ✅ ส่งข้อมูล User กลับไป
+    user: userData.user, 
     session: data.session,
   });
 });
 
-// Log Out
-router.post("/logout", async (req, res) => {
-  const { error } = await supabase.auth.signOut();
-  
+auth.get("/user", [validationAuth], async (req, res) => {
+  try {     
+      const userData = req.user;
+      
+      res.status(200).json({ user: userData.user });
+  } catch (err) {
+      res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//Sign In Google
+auth.post("/logingoogle", async (req, res) => { 
+  console.log("Received request to /logingoogle"); // Log to see request
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+  });
+
   if (error) {
-    console.error("There was an error:", error);
+    console.error("Error during Google login:", error.message); // Log error
     return res.status(400).json({ error: error.message });
   }
 
-  res.status(200).json({ success: true, message: "Logout successful" });
-});
-
-// Backend: ตรวจสอบ Route และให้บริการข้อมูลผู้ใช้
-router.get("/user", async (req, res) => {
-  // ดึง token จาก header
-  const token = req.headers.authorization?.split(" ")[1];  // Extract token from Authorization header
-
-  if (!token) {
-    return res.status(401).json({ error: "Unauthorized: No token provided" });
+  console.log("Google OAuth login success. Data received:", data); // Log data
+  if (!data?.session) {
+    console.error("No session returned from Supabase");
+    return res.status(400).json({ error: "No session returned" });
   }
 
-  try {
-    // ใช้ Supabase เพื่อตรวจสอบ token และดึงข้อมูลผู้ใช้
-    const { data: userData, error } = await supabase.auth.getUser(token);
+  const { data: userData, error: userError } = await supabase.auth.getUser(data.session.access_token);
 
-    if (error) {
-      return res.status(400).json({ error: error.message });
-    }
-
-    res.status(200).json({ user: userData.user });
-  } catch (err) {
-    res.status(500).json({ error: "Internal Server Error" });
+  if (userError) {
+    console.error("Error getting user data:", userError.message);
+    return res.status(400).json({ error: userError.message });
   }
+
+  console.log("Login successful! Returning response..."); // Log response
+  res.status(200).json({
+    success: true,
+    message: "Login successful",
+    user: userData.user, 
+    session: data.session,
+  });
 });
 
 
-export default router;
+export default auth;
