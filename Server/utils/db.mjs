@@ -12,6 +12,4 @@ const connectionPool = new Pool({
   port: 5432,
 });
 
-console.log(process.env.DB_USERNAME, process.env.DB_PASSWORD,process.env.DATABASE_URL);
-
 export default connectionPool;

@@ -37,12 +37,12 @@ export const BookingProvider = ({ children }) => {
 
   
     try {
-      console.log("Sending POST request...");
+      //console.log("Sending POST request...");
       const response = await axios.post(
         "http://localhost:4000/api/submit-booking",
         bookingInfo 
       );
-      console.log("Booking response:", response.data);    
+      //console.log("Booking response:", response.data);    
       window.location.href =  `/bookinghistory/${bookingData.guestInfo?.email}`;
     } catch (error) {
       console.error("Error:", error.message);     

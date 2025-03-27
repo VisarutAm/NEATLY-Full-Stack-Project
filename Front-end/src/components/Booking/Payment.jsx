@@ -63,7 +63,7 @@ const ServicePayment = () => {
       );
 
       const { clientSecret, paymentIntentId } = response.data;
-      console.log("Response:", response.data);
+      //console.log("Response:", response.data);
 
       const result = await stripe.confirmPromptPayPayment(clientSecret, {
         payment_method: {

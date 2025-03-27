@@ -9,8 +9,6 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(cors());
-//app.use(cors({ origin: 'https://yourfrontend.com' }));
-
 app.use(express.json());
 
 app.use('/api', auth);

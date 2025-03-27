@@ -81,10 +81,10 @@ const BookingProcess = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("handleSubmit called!");
+    //console.log("handleSubmit called!");
 
     setLoading(true);
-    console.log("check123", stripe, elements);
+    //console.log("check123", stripe, elements);
 
     if (!stripe || !elements) {
       return;
@@ -93,7 +93,7 @@ const BookingProcess = () => {
     const cardNumberElement = elements.getElement(CardNumberElement);
 
     try {
-      console.log("Final Price:", finalPrice);
+      //console.log("Final Price:", finalPrice);
       const response = await axios.post(
         "http://localhost:4000/api/create-payment-intent",
         {
@@ -101,8 +101,8 @@ const BookingProcess = () => {
           currency: "thb",
         }
       );
-      console.log("Final Price:", finalPrice);
-      console.log("Booking Data:", bookingData);
+      //console.log("Final Price:", finalPrice);
+     // console.log("Booking Data:", bookingData);
       const { clientSecret } = response.data;
 
       const result = await stripe.confirmCardPayment(clientSecret, {
@@ -111,7 +111,7 @@ const BookingProcess = () => {
           billing_details: {},
         },
       });
-      console.log(result);
+      //console.log(result);
       if (result.error) {
         //alert(`Payment failed: ${result.error.message}. Please try again.`);
         setLoading(false);

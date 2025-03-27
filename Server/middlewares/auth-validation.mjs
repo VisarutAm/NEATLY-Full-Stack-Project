@@ -21,7 +21,7 @@ export const validationAuth = async (req, res, next) => {
       return res.status(401).json({ error: "Unauthorized: No token provided" });
     }  
     const { data: user, error } = await supabase.auth.getUser(token);
-  console.log(user)
+  //console.log(user)
     if (error || !user || user.user.email !== "admin@admin.com") {
       return res.status(403).json({ error: "Forbidden: Admin access only" });
     }

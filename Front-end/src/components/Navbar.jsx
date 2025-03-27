@@ -9,7 +9,7 @@ const Navbar = () => {
   const [menu, setMenu] = useState("home");
   const [showSignup, setShowSignup] = useState(false);
 
-  console.log(session?.user?.user_metadata?.picture)
+  //console.log(session?.user?.user_metadata?.picture)
   const navigate = useNavigate();
 
   const handleSignOut = () => {

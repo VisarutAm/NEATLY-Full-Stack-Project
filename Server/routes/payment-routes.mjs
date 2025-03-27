@@ -9,9 +9,9 @@ console.log("Stripe Secret Key:", process.env.STRIPE_SECRET_KEY);
 
 payment.post("/create-payment-intent", async (req, res) => {
   const { amount, currency } = req.body;
-  console.log("Received amount:", amount, "currency:", currency); // ตรวจสอบค่าที่รับมา
+  //console.log("Received amount:", amount, "currency:", currency); // ตรวจสอบค่าที่รับมา
 
-  console.log(req.body)
+  //console.log(req.body)
   
   if (!amount || !currency) {
     return res.status(400).send({ error: "Amount and currency are required" });
@@ -25,8 +25,8 @@ payment.post("/create-payment-intent", async (req, res) => {
       currency,
       payment_method_types: ["card", "promptpay"], // Ensure this matches your payment method
     });
-    console.log("Payment Intent Created:", paymentIntent.id);
-    console.log(paymentIntent)
+    //console.log("Payment Intent Created:", paymentIntent.id);
+    //console.log(paymentIntent)
 
     res.status(200).send({
       clientSecret: paymentIntent.client_secret,

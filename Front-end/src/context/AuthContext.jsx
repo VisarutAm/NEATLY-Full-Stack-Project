@@ -97,7 +97,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       const token = response.data.session.access_token;
-      console.log("token:",token)
+      //console.log("token:",token)
       localStorage.setItem("token", token);
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       getUserInfo(token);
@@ -133,7 +133,7 @@ export const AuthProvider = ({ children }) => {
      
       axios.defaults.headers.common["Authorization"] = "";
   
-      console.log("User signed out successfully");
+      //console.log("User signed out successfully");
       return { success: true };
     } catch (error) {
       console.error("Error signing out:", error.message);
@@ -174,12 +174,12 @@ export const AuthProvider = ({ children }) => {
     }
   
     if (data?.session) {
-      console.log("Session found:", data.session);
+      //console.log("Session found:", data.session);
       localStorage.setItem("token", data.session.access_token);
       axios.defaults.headers.common["Authorization"] = `Bearer ${data.session.access_token}`;
       return data.session;
     } else {
-      console.log("No session found.");
+      //console.log("No session found.");
       return null;
     }
   };

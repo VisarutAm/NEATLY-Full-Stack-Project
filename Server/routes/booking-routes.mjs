@@ -6,7 +6,7 @@ const booking = express.Router();
 
 // Post Booking for User
 booking.post("/submit-booking",[validationAuth],async (req, res) => {
-  console.log(req);
+  
   try {
     const {
       user_name,
@@ -20,7 +20,7 @@ booking.post("/submit-booking",[validationAuth],async (req, res) => {
       extras,
       price,
     } = req.body;
-    console.log(req);
+    
     const query = `
         INSERT INTO bookings (user_name, email, phone, room_type, check_in, check_out, total_price, status, extras, price) 
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *;
@@ -40,7 +40,7 @@ booking.post("/submit-booking",[validationAuth],async (req, res) => {
     ];
 
     const result = await connectionPool.query(query, values);
-    console.log(result);
+   
 
     res
       .status(201)
@@ -83,7 +83,7 @@ booking.get("/",[verifyAdmin], async (req, res) => {
   let result;
   try {
     result = await connectionPool.query(`select * from bookings order by created_at desc`);
-    console.log(result);
+   
   } catch {
     return res.status(500).json({
       message: "Server could not read data because database connection",

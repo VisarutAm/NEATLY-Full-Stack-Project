@@ -47,7 +47,7 @@ const Card_Admin = () => {
         `http://localhost:4000/api/update-status/${id}`,
         { status: newStatus }
       );
-      console.log(response.data);
+      //console.log(response.data);
       toast.success("Status updated successfully!");
     } catch (error) {
       console.error("Error updating status:", error);

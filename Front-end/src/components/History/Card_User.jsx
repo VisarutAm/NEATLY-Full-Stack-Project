@@ -43,15 +43,15 @@ const Card_User = () => {
     const fetchBookingData = async () => {
       try {
         const response = await axios.get(`http://localhost:4000/api/${email}`);
-        console.log(response.data.data);
+        //console.log(response.data.data);
         setBookingDetail(response.data.data);
       } catch (error) {
-        console.error("Error fetching services:", error);
+        //console.error("Error fetching services:", error);
       }
     };
     fetchBookingData();
   }, [email]);
-  console.log("bookingdatail", bookingDetails);
+  //console.log("bookingdatail", bookingDetails);
 
   const formatDate = (dateString) => {
     if (!dateString) return "";

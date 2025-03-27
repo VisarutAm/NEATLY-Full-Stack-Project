@@ -7,7 +7,7 @@ const auth = express.Router();
 //Sign Up
 auth.post("/signup", async (req, res) => {
 
-    console.log("Request Body:", req.body);
+    //console.log("Request Body:", req.body);
 // console.log("Signup Response:", data);
 
     try {
@@ -31,7 +31,7 @@ auth.post("/signup", async (req, res) => {
         return res.status(400).json({ success: false, error: error.message });
       }
       
-      console.log("Signup Success - Sending response:", { success: true, data }); 
+      //console.log("Signup Success - Sending response:", { success: true, data }); 
       res.status(201).json({ success: true, data });
     } catch (err) {
       console.error("Server Error:", err);
@@ -76,7 +76,7 @@ auth.get("/user", [validationAuth], async (req, res) => {
 
 //Sign In Google
 auth.post("/logingoogle", async (req, res) => { 
-  console.log("Received request to /logingoogle"); // Log to see request
+ // console.log("Received request to /logingoogle"); // Log to see request
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
@@ -87,7 +87,7 @@ auth.post("/logingoogle", async (req, res) => {
     return res.status(400).json({ error: error.message });
   }
 
-  console.log("Google OAuth login success. Data received:", data); // Log data
+  //console.log("Google OAuth login success. Data received:", data); // Log data
   if (!data?.session) {
     console.error("No session returned from Supabase");
     return res.status(400).json({ error: "No session returned" });
@@ -100,7 +100,7 @@ auth.post("/logingoogle", async (req, res) => {
     return res.status(400).json({ error: userError.message });
   }
 
-  console.log("Login successful! Returning response..."); // Log response
+  //console.log("Login successful! Returning response..."); 
   res.status(200).json({
     success: true,
     message: "Login successful",
